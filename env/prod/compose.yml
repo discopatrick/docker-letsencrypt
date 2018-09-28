@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./env/prod/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem"
+      - "./env/prod/nginx.conf:/etc/nginx/conf.d/default.conf"
+      - "letsencrypt-etc:/etc/letsencrypt"
+      - "nginx-site-root:/usr/share/nginx/html"
+
+  certbot:
+    image: certbot/certbot
+    command: --version
+    volumes:
+      - "letsencrypt-etc:/etc/letsencrypt"      # --config-dir
+      - "letsencrypt-lib:/var/lib/letsencrypt"  # --work-dir
+      - "letsencrypt-log:/var/log/letsencrypt"  # --logs-dir
+      - "nginx-site-root:/data/letsencrypt"
+
+volumes:
+  letsencrypt-etc:
+  letsencrypt-lib:
+  letsencrypt-log:
+  nginx-site-root:
