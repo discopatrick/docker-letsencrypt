@@ -17,3 +17,9 @@
     --webroot-path=/data/letsencrypt \
     -d www.example.com
     ```
+* Renew the cert:
+    ```
+    docker-compose run --rm certbot \
+    renew --webroot \
+    --webroot-path=/data/letsencrypt
+    ```
