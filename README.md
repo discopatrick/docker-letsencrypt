@@ -23,3 +23,7 @@
     renew --webroot \
     --webroot-path=/data/letsencrypt
     ```
+* Cron job to renew cert and reload nginx:
+    ```
+    0 4 * * * cd /home/deploy/docker-letsencrypt && /usr/local/bin/docker-compose -f docker-compose.yml -f env/prod/compose.yml run --rm certbot renew --webroot --webroot-path=/data/letsencrypt --quiet && /usr/local/bin/docker-compose -f docker-compose.yml -f env/prod/compose.yml kill -s HUP web
+    ```
